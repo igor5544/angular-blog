@@ -1,0 +1,54 @@
+<div *ngIf="posts; else loading">
+  <div class="form-control">
+    <input type="text" placeholder="Найти пост..." [(ngModel)]="searchStr">
+  </div>
+  <table>
+    <thead>
+      <tr>
+        <th>
+          #
+        </th>
+        <th>
+          Автор
+        </th>
+        <th>
+          Название
+        </th>
+        <th>
+          Дата
+        </th>
+        <th>
+          Действие
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let post of posts | searchPosts: searchStr; let id = index">
+        <td>
+          {{ id + 1 }}
+        </td>
+        <td>
+          {{ post.author }}
+        </td>
+        <td>
+          {{ post.title }}
+        </td>
+        <td>
+          {{ post.date | date: 'medium':null:'ru' }}
+        </td>
+        <td>
+          <a class="btn btn-link open" [routerLink]="['/admin', 'post', post.id, 'edit']">
+            Открыть
+          </a>
+          <a (click)="remove(post.id)">
+            Удалить
+          </a>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<ng-template #loading>
+  <p class="text-center">Идёт загрузка...</p>
+</ng-template>
